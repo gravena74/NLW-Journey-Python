@@ -1,4 +1,4 @@
-import pytest
+import pytest 
 import uuid
 from .emails_to_invite_repository import EmailsToInviteRepository
 from src.models.settings.db_connection_handler import db_connection_handler
@@ -7,31 +7,23 @@ db_connection_handler.connect()
 trip_id = str(uuid.uuid4())
 
 @pytest.mark.skip(reason="interacao com o banco")
-def test_create_trip():
+def test_registry_email():
     conn = db_connection_handler.get_connection()
-    trips_repository = TripsRepository(conn)
+    emails_to_invite_repository = EmailsToInviteRepository(conn)
 
-    trips_infos = {
-        "id": trip_id,
-        "destination": "Osasco",
-        "start_date": datetime.strptime("02-01-2024", "%d-%m-%Y"),
-        "end_date": datetime.strptime("02-01-2024", "%d-%m-%Y") + timedelta(days=5),
-        "owner_name": "Osvaldo",
-        "owner_email": "osvaldo@email.com"
+    emails_trips_infos = {
+        "id": str(uuid.uuid4()),
+        "trip_id": trip_id,
+        "email": "olaMundo@email.com"
     }
 
-    trips_repository.create_trip(trips_infos)
+    emails_to_invite_repository.registry_email(emails_trips_infos)
 
 @pytest.mark.skip(reason="interacao com o banco")
-def test_find_trip_by_id():
+def test_find_emails_from_trip():
     conn = db_connection_handler.get_connection()
-    trips_repository = TripsRepository(conn)
+    emails_to_invite_repository = EmailsToInviteRepository(conn)
 
-    trip = trips_repository.find_trip_by_id(trip_id)
-   
-@pytest.mark.skip(reason="interacao com o banco")
-def test_update_trip_by_id():
-    conn = db_connection_handler.get_connection()
-    trips_repository = TripsRepository(conn)
-
-    trip = trips_repository.update_trip_status(trip_id)
+    emails = emails_to_invite_repository.find_emails_from_trip(trip_id)
+    print()
+    print(emails)
