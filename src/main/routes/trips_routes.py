@@ -6,11 +6,14 @@ trips_routes_bp = Blueprint("trip_routes", __name__)
 
 from src.controllers.trip_creator import TripCreator
 from src.controllers.trip_finder import TripFinder
+from src.controllers.trip_confirmer import TripConfirmer
+from src.controllers.link_creator import LinkCreator
 
 # Importação de Repositorios
 
 from src.models.repositories.trips_repository import TripsRepository
 from src.models.repositories.emails_to_invite_repository import EmailsToInviteRepository
+from src.models.repositories.links_to_trips_repository import LinksToTripsRepository
 
 # Importando o gerente de conexões
 
@@ -37,3 +40,26 @@ def find_trip(tripId):
     response = controller.find_trip_details(tripId)
 
     return jsonify(response["body"]), response["status_code"]
+
+
+@trips_routes_bp.route("/trips/<tripId>/confirm", methods=["GET"])
+def confirm_trip(tripId):
+    conn = db_connection_handler.get_connection()
+    trips_repository = TripsRepository(conn)
+    controller = TripConfirmer(trips_repository)
+
+    response = controller.confirm(tripId)
+
+    return jsonify(response["body"]), response["status_code"]
+
+
+@trips_routes_bp.route("/trips/<tripId>/confirm", methods=["POST"])
+def create_trip_link(tripId):
+    conn = db_connection_handler.get_connection()
+    links_repository = LinksToTripsRepository(conn)
+    controller = LinkCreator(links_repository)
+
+    response = controller.create(request.json, tripId)
+
+    return jsonify(response["body"]), response["status_code"]
+
