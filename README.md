@@ -35,6 +35,3 @@ Projeto NLW Jorney 2024 promovido pela RocketSeat<br/>
 
 Foi uma experiência enriquecedora que me proporcionou uma visão ampla sobre todo o ciclo de desenvolvimento de uma aplicação web, desde a concepção até a entrega com qualidade. Estou ansioso para aplicar esses conhecimentos em futuros projetos!
 
-## :memo: Licença
-
-Esse projeto está sob a licença MIT.
